@@ -1,5 +1,5 @@
 """
-Core encode/decode functions for the morsecode package.
+Core encode/decode functions for the morsecode_handler package.
 
 Public functions:
 - encode(text, language="EN", *, strict=True, unknown="?", uppercase=None)
@@ -21,15 +21,15 @@ from .exceptions import (
     UnknownMorseCodeError,
 )
 
-_DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "morsecode.json")
+_DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "morsecode_handler.json")
 with open(_DATA_PATH, "r", encoding="utf-8") as _f:
     _RAW: Dict[str, Dict[str, str]] = json.load(_f)
 
 # Validate required sections
 if "EN" not in _RAW:
-    raise RuntimeError("morsecode.json must contain an 'EN' base mapping.")
+    raise RuntimeError("morsecode_handler.json must contain an 'EN' base mapping.")
 if "COMMON" not in _RAW:
-    raise RuntimeError("morsecode.json must contain a 'COMMON' mapping for digits/space.")
+    raise RuntimeError("morsecode_handler.json must contain a 'COMMON' mapping for digits/space.")
 
 DEFAULT_LANG = "EN"
 

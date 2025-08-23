@@ -1,10 +1,10 @@
 """
-Command-line interface for the morsecode package.
+Command-line interface for the morsecode_handler package.
 
 Examples:
-    morsecode encode "HELLO WORLD"
-    morsecode decode "... --- ..."
-    morsecode encode "Hello 🙂" --lang EN --lenient
+    morsecode_handler encode "HELLO WORLD"
+    morsecode_handler decode "... --- ..."
+    morsecode_handler encode "Hello 🙂" --lang EN --lenient
 """
 
 import argparse
@@ -31,7 +31,7 @@ def _add_common_args(p):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
-        prog="morsecode",
+        prog="morsecode_handler",
         description="Encode and decode Morse code with language support.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)

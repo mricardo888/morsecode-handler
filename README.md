@@ -1,4 +1,4 @@
-# 📡 morsecode
+# 📡 Morsecode Handler
 
 Easily **encode and decode Morse code** in Python 🐍.  
 This library is simple, lightweight, and includes both a **Python API** and a **Command-Line Interface (CLI)**.
@@ -14,7 +14,7 @@ This library is simple, lightweight, and includes both a **Python API** and a **
 Install from [PyPI](https://pypi.org/project/morsecode/):
 
 ```bash
-pip install morsecode
+pip install morsecode_handler
 ````
 
 ---
@@ -22,15 +22,15 @@ pip install morsecode
 ## 🛠️ Usage in Python
 
 ```python
-import morsecode
+import morsecode_handler
 
 # Encode text
-encoded = morsecode.encode("HELLO WORLD")
+encoded = morsecode_handler.encode("HELLO WORLD")
 print(encoded)
 # .... . .-.. .-.. --- / .-- --- .-. .-.. -..
 
 # Decode Morse back to text
-decoded = morsecode.decode(".... . .-.. .-.. --- / .-- --- .-. .-.. -..")
+decoded = morsecode_handler.decode(".... . .-.. .-.. --- / .-- --- .-. .-.. -..")
 print(decoded)
 # HELLO WORLD
 ```
@@ -38,9 +38,9 @@ print(decoded)
 ### Lenient Mode (skip unknown characters)
 
 ```python
-import morsecode
+import morsecode_handler
 
-morsecode.encode("HELLO 🙂", strict=False, unknown="?")
+morsecode_handler.encode("HELLO 🙂", strict=False, unknown="?")
 # .... . .-.. .-.. --- / ?
 ```
 
@@ -52,15 +52,15 @@ Once installed, you also get the `morsecode` CLI:
 
 ```bash
 # Encode
-morsecode encode "HELLO WORLD"
+morsecode_handler encode "HELLO WORLD"
 # .... . .-.. .-.. --- / .-- --- .-. .-.. -..
 
 # Decode
-morsecode decode ".... . .-.. .-.. --- / .-- --- .-. .-.. -.."
+morsecode_handler decode ".... . .-.. .-.. --- / .-- --- .-. .-.. -.."
 # HELLO WORLD
 
 # Lenient mode (replace unknown characters with '?')
-morsecode encode "HELLO 🙂" --lenient
+morsecode_handler encode "HELLO 🙂" --lenient
 # .... . .-.. .-.. --- / ?
 ```
 
@@ -100,9 +100,3 @@ We follow the **ISO 639-1 standard** for the two-letter language codes (e.g., `E
 
 Released under the MIT [License](LICENSE).
 Created by **Ricardo** ([mricardo888](https://github.com/mricardo888)).
-
----
-
-✨ With `morsecode`, you can turn plain text into dots and dashes (and back) in seconds!
-
----

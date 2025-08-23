@@ -1,12 +1,12 @@
 """
-Custom exception types for the morsecode package.
+Custom exception types for the morsecode_handler package.
 """
 
 from typing import Optional
 
 
 class MorseCodeError(Exception):
-    """Base class for all morsecode errors."""
+    """Base class for all morsecode_handler errors."""
     pass
 
 

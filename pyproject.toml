@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "morsecode"
+name = "morsecode-handler"
 version = "0.0.1"
 description = "Encode and decode Morse code with custom errors, language JSON dictionaries, and CLI support."
 readme = "README.md"
@@ -14,7 +14,7 @@ authors = [
 requires-python = ">=3.7"
 dependencies = []
 
-keywords = ["morse", "morse code", "encode", "decode", "cli", "language"]
+keywords = ["morse", "morse code", "encode", "decode", "cli", "language", "handler"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -46,7 +46,7 @@ include-package-data = true
 morsecode = ["data/*.json"]
 
 [tool.setuptools.packages.find]
-include = ["morsecode*"]
+include = ["morsecode_handler*"]
 
 # --- Optional developer tooling ---
 
