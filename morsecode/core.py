@@ -75,31 +75,41 @@ def _merge_language_dict(language: str) -> Dict[str, str]:
     return merged
 
 
-def _build_reverse_pref_ascii(merged: Dict[str, str]) -> Dict[str, str]:
+def _build_reverse_pref(merged: Dict[str, str], overrides: Dict[str, str]) -> Dict[str, str]:
     """
-    Build a reverse map (morse -> char) preferring ASCII A–Z for any collisions.
+    Build a reverse map (morse -> char) with a language-aware preference order.
 
-    Strategy:
-      1) First insert ASCII A–Z if present.
-      2) Then insert digits/space if present.
-      3) Finally insert any remaining keys (e.g., diacritics) only if not set yet.
+    - If the selected language appears to use a non-ASCII script (e.g., Arabic, Russian),
+      prefer its override characters first so collisions resolve to that script.
+    - Otherwise (Latin-script languages), prefer ASCII A–Z first (status quo).
     """
     rev: Dict[str, str] = {}
 
-    # 1) Prefer plain ASCII letters
-    for codepoint in range(ord("A"), ord("Z") + 1):
-        ch = chr(codepoint)
-        morse = merged.get(ch)
-        if morse:
-            rev.setdefault(morse, ch)
+    # Heuristic: if any override key is non-ASCII, treat as non-Latin script.
+    non_ascii_script = any(ord(k) > 127 for k in overrides.keys())
 
-    # 2) Digits & space from COMMON
-    for key in _RAW["COMMON"].keys():
-        morse = merged.get(key)
-        if morse:
-            rev.setdefault(morse, key)
+    def insert_chars(chars):
+        for ch in chars:
+            morse = merged.get(ch)
+            if morse:
+                rev.setdefault(morse, ch)
 
-    # 3) Remaining keys (diacritics, special letters)
+    ascii_AZ = [chr(cp) for cp in range(ord("A"), ord("Z") + 1)]
+
+    if non_ascii_script:
+        # 1) Prefer language-specific overrides (e.g., Arabic/Russian letters)
+        insert_chars(overrides.keys())
+        # 2) Then ASCII A–Z (useful if input mixes scripts)
+        insert_chars(ascii_AZ)
+    else:
+        # Latin languages: keep original behavior (prefer ASCII A–Z)
+        insert_chars(ascii_AZ)
+        insert_chars(overrides.keys())
+
+    # 3) Digits & space from COMMON
+    insert_chars(_RAW["COMMON"].keys())
+
+    # 4) Any remaining keys (backfill)
     for ch, morse in merged.items():
         rev.setdefault(morse, ch)
 
@@ -198,7 +208,8 @@ def decode(
         uppercase = (lang_norm != DEFAULT_LANG)
 
     merged = _merge_language_dict(lang_norm)
-    reverse = _build_reverse_pref_ascii(merged)
+    overrides = _get_language_overrides(lang_norm)
+    reverse = _build_reverse_pref(merged, overrides)
 
     tokens = morse.split()
     out: List[str] = []
