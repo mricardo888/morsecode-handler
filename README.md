@@ -92,7 +92,26 @@ We follow the **ISO 639-1 standard** for the two-letter language codes (e.g., `E
 * 🎯 Strict mode (raise errors) or Lenient mode (skip unknowns)
 * 💻 CLI for quick terminal use
 * 🌍 Multi-language support via JSON dictionary
+* 🚀 **High Performance**: Features lazy-loaded data and `@functools.lru_cache` for maximum speed during bulk encoding/decoding.
 * 📝 MIT licensed — free to use anywhere
+
+---
+
+## 🛠️ Development & Testing
+
+We welcome contributions! To set up the development environment, clone the repo and install the `dev` dependencies:
+
+```bash
+git clone https://github.com/mricardo888/morsecode.git
+cd morsecode-handler
+pip install -e ".[dev]"
+```
+
+Run the `pytest` suite to ensure everything is working correctly:
+
+```bash
+pytest -v tests/
+```
 
 ---
 

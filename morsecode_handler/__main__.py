@@ -9,14 +9,20 @@ Examples:
 
 import argparse
 import sys
+from typing import Optional, List
 
 from .core import encode, decode, DEFAULT_LANG
 from .exceptions import MorseCodeError
 
 
-def _add_common_args(p):
-    # NOTE: Default for --lang is None so we can detect if user explicitly set it.
-    p.add_argument("--lang", default=None, help=f"Language short code (default: {DEFAULT_LANG})")
+def _add_common_args(p: argparse.ArgumentParser) -> None:
+    # NOTE: Default for --lang is None so we can detect if
+    # user explicitly set it.
+    p.add_argument(
+        "--lang",
+        default=None,
+        help=f"Language short code (default: {DEFAULT_LANG})"
+    )
     p.add_argument(
         "--lenient",
         action="store_true",
@@ -29,24 +35,25 @@ def _add_common_args(p):
     )
 
 
-def main(argv=None):
+def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
         prog="morsecode_handler",
         description="Encode and decode Morse code with language support.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    enc = subparsers.add_parser("encode", help="Encode plain text to Morse code")
+    enc = subparsers.add_parser("encode", help="Encode plain text to Morse code")  # noqa: E501
     enc.add_argument("text", help="The text to encode")
     _add_common_args(enc)
 
-    dec = subparsers.add_parser("decode", help="Decode Morse code to plain text")
+    dec = subparsers.add_parser("decode", help="Decode Morse code to plain text")  # noqa: E501
     dec.add_argument("morse", help="The Morse code string to decode")
     _add_common_args(dec)
 
     args = parser.parse_args(argv)
 
-    # If user didn't pass --lang, fall back to DEFAULT_LANG and do NOT force uppercase.
+    # If user didn't pass --lang, fall back to DEFAULT_LANG
+    # and do NOT force uppercase.
     lang = args.lang or DEFAULT_LANG
 
     try:
